@@ -35,7 +35,7 @@ public class Firstperson : MonoBehaviour
             float anguloSuave = Mathf.SmoothDampAngle(transform.eulerAngles.y, anguloRotacion, ref velocidadRotacion, smoothing);
          transform.eulerAngles = new Vector3(0, anguloSuave, 0);
 
-            Vector3 movimiento = Quaternion.Euler(0, anguloRotacion, 0) * Vector3.forward;
+            Vector3 movimiento = Quaternion.Euler(0, anguloSuave, 0) * Vector3.forward;
             characterController.Move(movimiento * 5 * Time.deltaTime);
             
         }

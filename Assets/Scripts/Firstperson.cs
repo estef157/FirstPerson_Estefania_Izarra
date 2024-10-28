@@ -10,7 +10,7 @@ public class Firstperson : MonoBehaviour
     private Camera cam;
     [SerializeField] private float smoothing;
     private float velocidadRotacion;
-
+    private Vector3 movimientoVertical;
 
 
 
@@ -27,26 +27,23 @@ public class Firstperson : MonoBehaviour
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
         //Vector3 movimiento  = new Vector3 (h, 0, v);
-        Vector2 input  = new Vector2 (h, v).normalized;
+        Vector2 input = new Vector2(h, v).normalized;
 
-        if  (input.sqrMagnitude > 0)
+        if (input.sqrMagnitude > 0)
         {
             float anguloRotacion = Mathf.Atan2(input.x, input.y) * Mathf.Rad2Deg + cam.transform.eulerAngles.y;
             float anguloSuave = Mathf.SmoothDampAngle(transform.eulerAngles.y, anguloRotacion, ref velocidadRotacion, smoothing);
-         transform.eulerAngles = new Vector3(0, anguloSuave, 0);
+            transform.eulerAngles = new Vector3(0, anguloSuave, 0);
 
             Vector3 movimiento = Quaternion.Euler(0, anguloSuave, 0) * Vector3.forward;
             characterController.Move(movimiento * 5 * Time.deltaTime);
-            
+            characterController.Move(input * velocidadMovimiento * Time.deltaTime);
+
         }
-
-
-
-
-
-
-
-
-        characterController.Move(input * velocidadMovimiento * Time.deltaTime);
+        AplicarGravedad();
+    }
+    private void AplicarGravedad()
+    {
+     
     }
 }

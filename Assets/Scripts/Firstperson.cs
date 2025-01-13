@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Firstperson : MonoBehaviour
 
 {
+    private int puntuacion;
+    [SerializeField] TMP_Text textoPuntos;
     [SerializeField] private float velocidadMovimiento;
     [SerializeField] private Vector3 movimientoVertical;
     [SerializeField] private float vidas;
@@ -88,5 +91,19 @@ public class Firstperson : MonoBehaviour
         {
             movimientoVertical.y = Mathf.Sqrt(-2 * escalaGravedad * alturaSalto);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+
+        if (other.gameObject.CompareTag("Coleccionable"))
+        {
+            puntuacion += 1;
+            textoPuntos.SetText("x" + puntuacion);
+            
+            Destroy(other.gameObject);
+        }
+
     }
 }

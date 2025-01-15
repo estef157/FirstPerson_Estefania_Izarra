@@ -16,4 +16,15 @@ public class GameOver : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(2);
+
+        }
+
+    }
+
 }

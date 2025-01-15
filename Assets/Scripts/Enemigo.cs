@@ -5,34 +5,41 @@ using UnityEngine.AI;
 
 public class Enemigo : MonoBehaviour
 {
-    private Animator anim;
-    [SerializeField] private LayerMask queEsPlayer;
-    [SerializeField] private float ataqueDano;
-    private float danhoRecibido;
-    [SerializeField] private float radioAtaque;
+    private Firstperson player;
+    [SerializeField] private float vidas;
     [SerializeField] float stoppingDistance;
     [SerializeField] private Transform ataqueDistancia;
+    private Animator anim;
+    [SerializeField] private float radioAtaque;
+    [SerializeField] private float ataqueDano;
+    private float danhoRecibido;
+    public float Vidas { get => vidas; set => vidas = value; }
+    [SerializeField] private AudioSource audioSource;
     private NavMeshAgent agent;
-    private Firstperson player;
     private Rigidbody[] huesos;
+    
+    [SerializeField] private LayerMask queEsPlayer;
 
     private bool ventanaAbierta = false;
     private bool danhoRealizado = false;
 
 
-    // Start is called before the first frame update
+
+    
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindObjectOfType<Firstperson>();
-        GetComponent<Animator>();
+        anim = GetComponent<Animator>();
+        huesos = GetComponentsInChildren<Rigidbody>();
+        CambiarHuesos(true);
     }
 
 
-    // Update is called once per frame
+    
     void Update()
     {
-        //Tengo que definir como destino la posicion del player.
+        
 
         if (agent.enabled)
         {
@@ -50,15 +57,20 @@ public class Enemigo : MonoBehaviour
 
     }
 
+    private void RecibirDanho()
+    {
+
+    }
+
     private void EnfocarPlayer()
     {
-        //Calcular Vector que apunte al jugador
+        
         Vector3 direccionAPlayer = (player.transform.position - this.gameObject.transform.position).normalized;
 
-        //Me aseguro que no se vuelve al enemigo al ver al player 
+       
         direccionAPlayer.y = 0;
 
-        //Calculo la rotacion a la que tengo que girar para orientarme en esa direccion.
+        
         transform.rotation = Quaternion.LookRotation(direccionAPlayer);
     }
 
@@ -78,14 +90,20 @@ public class Enemigo : MonoBehaviour
     private void Perseguir()
     {
         agent.SetDestination(player.transform.position);
-        anim.SetBool("walking", true);
         if (agent.remainingDistance <= agent.stoppingDistance)
         {
             agent.isStopped = true;
-            anim.SetBool("attacking", true);
+            anim.SetBool("Attacking", true);
         }
     }
 
+    private void CambiarHuesos(bool estado)
+    {
+        for (int i = 0; i < huesos.Length; i++)
+        {
+            huesos[i].isKinematic = estado;
+        }
+    }
     
     private void FinalizarAtaque()
     {
@@ -94,4 +112,12 @@ public class Enemigo : MonoBehaviour
         anim.SetBool("attacking", false);
     }
 
+    public void Morir()
+    {
+        anim.enabled = false;
+        audioSource.enabled = false;
+        agent.enabled = false;
+        CambiarHuesos(false);
+        Destroy(gameObject, 5);
+    }
 }

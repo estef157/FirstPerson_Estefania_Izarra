@@ -90,10 +90,12 @@ public class Enemigo : MonoBehaviour
     private void Perseguir()
     {
         agent.SetDestination(player.transform.position);
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             agent.isStopped = true;
             anim.SetBool("Attacking", true);
+
+            EnfocarPlayer();
         }
     }
 

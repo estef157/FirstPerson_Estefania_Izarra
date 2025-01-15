@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SistemaInteracciones : MonoBehaviour
 {
-    [SerializeField] private Transform interactuableActual;
+    private Transform interactuableActual;
     private Camera cam;
     [SerializeField] private float distanciaInteraccion;
     // Start is called before the first frame update
@@ -21,27 +21,43 @@ public class SistemaInteracciones : MonoBehaviour
 
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, distanciaInteraccion))
         {
+            interactuableActual = hit.transform;
+           
             if (hit.transform.CompareTag("ObjetoInterac"))
             {
+                
                 interactuableActual = hit.transform;
                 interactuableActual.GetComponent<Outline>().enabled = true;
-                if (Input.GetKeyDown(KeyCode.E))
+                if (hit.transform.TryGetComponent(out ScriptCaja caja))
                 {
-
-
-
                     
+
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactuableActual = hit.transform;
+                        
+
+                        
+                        
+                            caja.Abrir();
+                        interactuableActual.GetComponent<Outline>().enabled = false;
+
+                    }
+
 
 
                 }
+                
 
             }
+            
+               
+
+            
 
         }
-        else if (interactuableActual)
-        {
-            interactuableActual.GetComponent<Outline>().enabled = false;
-            interactuableActual = null;
-        }
+        
+
+
     }
 }

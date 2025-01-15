@@ -116,11 +116,25 @@ public class Firstperson : MonoBehaviour
 
         if (other.gameObject.CompareTag("Coleccionable"))
         {
+            Debug.Log("hola choco");
             puntuacion += 1;
             textoPuntos.SetText("x" + puntuacion);
             
             Destroy(other.gameObject);
         }
 
+        if (gameObject.CompareTag("Victoria"))
+        {
+            SceneManager.LoadScene(3);
+
+        }
     }
+
+    
+    
+          
+
+   
+    
+
 }

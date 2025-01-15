@@ -29,9 +29,10 @@ public class CanvasManager : MonoBehaviour
 
     public void Resume()
     {
-        pausa.SetActive(false);
-        Time.timeScale = 1f;
         JuegaPausa = false;
+        pausa.SetActive(false);
+        Time.timeScale = 3f;
+       
     }
     public void Pause()
     {

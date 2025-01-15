@@ -8,8 +8,6 @@ public class Coin : MonoBehaviour
     [SerializeField] float velocidadmov;
     float timer = 0;
     [SerializeField] int velocidadRot;
-    //private int puntuacion;
-    //[SerializeField] TMP_Text textoPuntos;
     [SerializeField] Vector3 direccionRot;
 
    
@@ -27,9 +25,5 @@ public class Coin : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        //puntuacion += 1;
-        //  textoPuntos.SetText("x" + puntuacion);
-    }
+    
 }

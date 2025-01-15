@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class Firstperson : MonoBehaviour
 
 {
     private int puntuacion;
+    [SerializeField] public Slider slider;
     [SerializeField] TMP_Text textoPuntos;
     [SerializeField] private float velocidadMovimiento;
     [SerializeField] private Vector3 movimientoVertical;
     [SerializeField] private float vidas;
+    private float vidasActual;
     private CharacterController cc;
     private Camera cam;
     [SerializeField] private float radioDeteccion = 0.3f;
@@ -26,7 +31,7 @@ public class Firstperson : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        vidasActual = vidas;
         Cursor.lockState = CursorLockMode.Locked;
         cc = GetComponent<CharacterController>();
         cam = Camera.main;
@@ -60,6 +65,17 @@ public class Firstperson : MonoBehaviour
         cc.Move(movimientoVertical * Time.deltaTime);
     }
 
+    private void BarraVidaMaxima()
+    {
+        slider.maxValue = vidas;
+        slider.value = vidas;
+    }
+    private void BarraVida()
+    {
+        slider.value = vidas;
+    }
+
+
     private void DeteccionSuelo()
     {
         Collider[] collsDetectados = Physics.OverlapSphere(pies.position, radioDeteccion, layerSuelo);
@@ -77,10 +93,11 @@ public class Firstperson : MonoBehaviour
     }
     public void RecibirDanho(float danhoRecibido)
     {
-        vidas -= danhoRecibido;
-        if (vidas < 0)
+        vidasActual -= danhoRecibido;
+        if (vidasActual < 0)
         {
-            Destroy(gameObject);
+            SceneManager.LoadScene(2);
+
         }
     }
 
